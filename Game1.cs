@@ -223,12 +223,10 @@ namespace monoSlime2
             slider_texture = Content.Load<Texture2D>("slider");
             sliderToggle_texture = Content.Load<Texture2D>("sliderToggle");
 
-            var buttonOne = new Button(button_texture, font)
-            {
-                PositionScale = new Vector2(0.1f,0.97f),
-                //Position = new Vector2(300, Window.ClientBounds.Height - 50),
-                Text = "Button",
-            };
+            var buttonOne = new Button(button_texture, font);           
+            buttonOne.Scale = 0.5f;
+            buttonOne.location = Button.Location.BottomRight;
+            buttonOne.Text = "Reset";           
             buttonOne.Click += ButtonOne_Click;
 
             var Quitbutton = new Button(button_texture, font);
@@ -245,42 +243,39 @@ namespace monoSlime2
                 Text = "+",
             };
             singlebutton.Click += Singlebutton_Click;
-            
-            var textbox = new Textbox(textbox_texture, font, "Textbox1")
-            {
-                PositionScale = new Vector2(0f, 0f),
-                // Position = new Vector2(600, 500),
-                Text = "TurnDeg: " + settingsArray[0].ToString(),
-            };
+
+            var textbox = new Textbox(textbox_texture, font, "Textbox1");      
+            textbox.Scale = 0.6f;
+            textbox.w_offset = 180;
+            textbox.location = Textbox.Location.BottomLeft;
+            textbox.Text = "TurnDeg: " + settingsArray[0].ToString();
             textbox.UpdateText += Textbox_UpdateText;
 
-            var turnslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider1")
-            {
-                PositionScale = new Vector2(0.15f, 0.01f),
-                ToggleValue = 0,
-                MinMaxValues = new Vector2(0,180),
-                // Position = new Vector2(600, 500),
-                //Text = settingsArray[0].ToString(),
-            };
+            var sensAngletextbox = new Textbox(textbox_texture, font, "Textbox2");   
+            sensAngletextbox.Scale = 0.6f;
+            sensAngletextbox.w_offset = 650;
+            sensAngletextbox.location = Textbox.Location.BottomLeft;
+            sensAngletextbox.Text = ": " + settingsArray[1].ToString();
+            sensAngletextbox.UpdateText += SensAngletextbox_UpdateText;
+
+            var turnslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider1");
+            turnslider.Scale = 0.5f;
+            turnslider.w_offset = 410;
+            turnslider.h_offset = -10;
+            turnslider.ToggleValue = 0;
+            turnslider.location = Slider.Location.BottomLeft;
+            turnslider.MinMaxValues = new Vector2(0, 180);
             turnslider.UpdateValue += Turnslider_UpdateValue;
 
-            var sensAngletextbox = new Textbox(textbox_texture, font, "Textbox2")
-            {
-                PositionScale = new Vector2(0f, 0.05f),
-                // Position = new Vector2(600, 500),
-                Text = "TurnDeg: " + settingsArray[0].ToString(),
-            };
-            sensAngletextbox.UpdateText += SensAngletextbox_UpdateText; ;
 
-            var sensAngleslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider2")
-            {
-                PositionScale = new Vector2(0.15f, 0.06f),
-                ToggleValue = 0,
-                MinMaxValues = new Vector2(0, 45),
-                // Position = new Vector2(600, 500),
-                //Text = settingsArray[0].ToString(),
-            };
-            sensAngleslider.UpdateValue += SensAngleslider_UpdateValue; ;
+            var sensAngleslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider2");            
+            sensAngleslider.Scale = 0.5f;
+            sensAngleslider.w_offset = 890;
+            sensAngleslider.h_offset = -10;
+            sensAngleslider.ToggleValue = 0;
+            sensAngleslider.location = Slider.Location.BottomLeft;
+            sensAngleslider.MinMaxValues = new Vector2(0, 60);
+            sensAngleslider.UpdateValue += SensAngleslider_UpdateValue;
 
             _allComponents = new List<Component>
             {
