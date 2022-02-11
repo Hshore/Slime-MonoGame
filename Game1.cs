@@ -16,7 +16,7 @@ namespace monoSlime2
 
         public static int window_w = 1377;
         public static int window_h = 786;
-        public static int img_w = 1366;
+        public static int img_w = 1377;
         public static int img_h = 768;
         public DirectBitmap Dbmp;
         public long framecounter = 0;
@@ -69,7 +69,7 @@ namespace monoSlime2
         KeyboardState previousKeyboardState;
 
         //Agents stuff
-        int agentsCount = 1000000; // (int)((img_w*img_h) * 0.05f);
+        int agentsCount = 500000; // (int)((img_w*img_h) * 0.05f);
         float[] agent_pos_x;
         float[] agent_pos_y;
         float[] agent_bearing;
@@ -223,16 +223,16 @@ namespace monoSlime2
             slider_texture = Content.Load<Texture2D>("slider");
             sliderToggle_texture = Content.Load<Texture2D>("sliderToggle");
 
-            var buttonOne = new Button(button_texture, font)
-            {
-                PositionScale = new Vector2(0.1f,0.97f),
-                //Position = new Vector2(300, Window.ClientBounds.Height - 50),
-                Text = "Button",
-            };
+            var buttonOne = new Button(button_texture, font);           
+            buttonOne.Scale = 0.5f;
+            buttonOne.location = Button.Location.BottomRight;
+            buttonOne.Text = "Reset";           
             buttonOne.Click += ButtonOne_Click;
 
             var Quitbutton = new Button(button_texture, font);
-            Quitbutton.PositionScale = new Vector2(0f, 0.97f);
+            // Quitbutton.PositionScale = new Vector2(0f, 0.97f);
+            Quitbutton.Scale = 0.5f;
+            Quitbutton.location = Button.Location.BottomLeft;
             Quitbutton.Text = "Quit";
             Quitbutton.Click += Quitbutton_Click;
 
@@ -243,46 +243,43 @@ namespace monoSlime2
                 Text = "+",
             };
             singlebutton.Click += Singlebutton_Click;
-            
-            var textbox = new Textbox(textbox_texture, font, "Textbox1")
-            {
-                PositionScale = new Vector2(0f, 0f),
-                // Position = new Vector2(600, 500),
-                Text = "TurnDeg: " + settingsArray[0].ToString(),
-            };
+
+            var textbox = new Textbox(textbox_texture, font, "Textbox1");      
+            textbox.Scale = 0.6f;
+            textbox.w_offset = 180;
+            textbox.location = Textbox.Location.BottomLeft;
+            textbox.Text = "TurnDeg: " + settingsArray[0].ToString();
             textbox.UpdateText += Textbox_UpdateText;
 
-            var turnslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider1")
-            {
-                PositionScale = new Vector2(0.15f, 0.01f),
-                ToggleValue = 0,
-                MinMaxValues = new Vector2(0,180),
-                // Position = new Vector2(600, 500),
-                //Text = settingsArray[0].ToString(),
-            };
+            var sensAngletextbox = new Textbox(textbox_texture, font, "Textbox2");   
+            sensAngletextbox.Scale = 0.6f;
+            sensAngletextbox.w_offset = 650;
+            sensAngletextbox.location = Textbox.Location.BottomLeft;
+            sensAngletextbox.Text = ": " + settingsArray[1].ToString();
+            sensAngletextbox.UpdateText += SensAngletextbox_UpdateText;
+
+            var turnslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider1");
+            turnslider.Scale = 0.5f;
+            turnslider.w_offset = 410;
+            turnslider.h_offset = -10;
+            turnslider.ToggleValue = 0;
+            turnslider.location = Slider.Location.BottomLeft;
+            turnslider.MinMaxValues = new Vector2(0, 180);
             turnslider.UpdateValue += Turnslider_UpdateValue;
 
-            var sensAngletextbox = new Textbox(textbox_texture, font, "Textbox2")
-            {
-                PositionScale = new Vector2(0f, 0.05f),
-                // Position = new Vector2(600, 500),
-                Text = "TurnDeg: " + settingsArray[0].ToString(),
-            };
-            sensAngletextbox.UpdateText += SensAngletextbox_UpdateText; ;
 
-            var sensAngleslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider2")
-            {
-                PositionScale = new Vector2(0.15f, 0.06f),
-                ToggleValue = 0,
-                MinMaxValues = new Vector2(0, 45),
-                // Position = new Vector2(600, 500),
-                //Text = settingsArray[0].ToString(),
-            };
-            sensAngleslider.UpdateValue += SensAngleslider_UpdateValue; ;
+            var sensAngleslider = new Slider(slider_texture, sliderToggle_texture, font, "Slider2");            
+            sensAngleslider.Scale = 0.5f;
+            sensAngleslider.w_offset = 890;
+            sensAngleslider.h_offset = -10;
+            sensAngleslider.ToggleValue = 0;
+            sensAngleslider.location = Slider.Location.BottomLeft;
+            sensAngleslider.MinMaxValues = new Vector2(0, 60);
+            sensAngleslider.UpdateValue += SensAngleslider_UpdateValue;
 
             _allComponents = new List<Component>
             {
-                buttonOne,
+              //  buttonOne,
                 Quitbutton,
                // singlebutton,
                 textbox,
@@ -292,7 +289,7 @@ namespace monoSlime2
             };
             _buttonComponents = new List<Button>
             {
-                buttonOne,
+                //buttonOne,
                 Quitbutton,
                // singlebutton,              
             };
@@ -394,24 +391,13 @@ namespace monoSlime2
             if (IsKeyPressed(Keys.LeftAlt, false) && IsKeyPressed(Keys.Enter, true))
             {
                 _graphics.ToggleFullScreen();
-               /* if (_graphics.IsFullScreen)
-                {
-                    
-                    _graphics.ToggleFullScreen();
-
-                }
-                else
-                {
-                 
-                    _graphics.ToggleFullScreen();
-                }*/
-
+             
                
             }
             foreach (var button in _allComponents)
             {
                 button.Update(gameTime, Window);
-              //  button.posUpdate();
+              
             }
             
             // TODO: Add your update logic here
@@ -441,18 +427,7 @@ namespace monoSlime2
             _spriteBatch.Begin();
             _spriteBatch.Draw(agents_texture, new Microsoft.Xna.Framework.Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height), new Microsoft.Xna.Framework.Rectangle(0,0,agents_texture.Width,agents_texture.Height), Microsoft.Xna.Framework.Color.White,0,new Vector2(0,0),SpriteEffects.None,1);
 
-            // _spriteBatch.DrawString(font, "Mouse: X: " + mouseState.X + " Y: " + mouseState.Y, new Vector2(100, 0), Microsoft.Xna.Framework.Color.White);
-            // _spriteBatch.DrawString(font, "Window Width: W:" + Window.ClientBounds.Width + " H: " + Window.ClientBounds.Height, new Vector2(100, 50), Microsoft.Xna.Framework.Color.White);
-            /* _spriteBatch.DrawString(font, "Sensor 1 value: " + debugOuts[1], new Vector2(0, 50), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Sensor 2 value: " + debugOuts[2], new Vector2(0, 100), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Sensor 3 value: " + debugOuts[3], new Vector2(0, 150), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "TargetSum value: " + debugOuts[4], new Vector2(0, 200), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Targetx: " + debugOuts[5], new Vector2(0, 250), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Targety: " + debugOuts[6], new Vector2(0, 300), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Currentx: " + debugOuts[7], new Vector2(0, 350), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Currenty: " + debugOuts[8], new Vector2(0, 400), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "TargetID: " + debugOuts[9], new Vector2(0, 450), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "CurrentID: " + debugOuts[10], new Vector2(0, 500), Microsoft.Xna.Framework.Color.Yellow);*/
+            
             foreach (var button in _allComponents)
             {
                 button.Draw(gameTime, _spriteBatch);
