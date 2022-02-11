@@ -16,8 +16,8 @@ namespace monoSlime2
 
         public static int window_w = 1377;
         public static int window_h = 786;
-        public static int img_w = 3840 /4;
-        public static int img_h = 2160 /4;
+        public static int img_w = 1377;
+        public static int img_h = 768;
         public DirectBitmap Dbmp;
         public long framecounter = 0;
 
@@ -69,7 +69,7 @@ namespace monoSlime2
         KeyboardState previousKeyboardState;
 
         //Agents stuff
-        int agentsCount = 1000000; // (int)((img_w*img_h) * 0.05f);
+        int agentsCount = 500000; // (int)((img_w*img_h) * 0.05f);
         float[] agent_pos_x;
         float[] agent_pos_y;
         float[] agent_bearing;
@@ -427,18 +427,7 @@ namespace monoSlime2
             _spriteBatch.Begin();
             _spriteBatch.Draw(agents_texture, new Microsoft.Xna.Framework.Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height), new Microsoft.Xna.Framework.Rectangle(0,0,agents_texture.Width,agents_texture.Height), Microsoft.Xna.Framework.Color.White,0,new Vector2(0,0),SpriteEffects.None,1);
 
-            // _spriteBatch.DrawString(font, "Mouse: X: " + mouseState.X + " Y: " + mouseState.Y, new Vector2(100, 0), Microsoft.Xna.Framework.Color.White);
-            // _spriteBatch.DrawString(font, "Window Width: W:" + Window.ClientBounds.Width + " H: " + Window.ClientBounds.Height, new Vector2(100, 50), Microsoft.Xna.Framework.Color.White);
-            /* _spriteBatch.DrawString(font, "Sensor 1 value: " + debugOuts[1], new Vector2(0, 50), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Sensor 2 value: " + debugOuts[2], new Vector2(0, 100), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Sensor 3 value: " + debugOuts[3], new Vector2(0, 150), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "TargetSum value: " + debugOuts[4], new Vector2(0, 200), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Targetx: " + debugOuts[5], new Vector2(0, 250), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Targety: " + debugOuts[6], new Vector2(0, 300), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Currentx: " + debugOuts[7], new Vector2(0, 350), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "Currenty: " + debugOuts[8], new Vector2(0, 400), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "TargetID: " + debugOuts[9], new Vector2(0, 450), Microsoft.Xna.Framework.Color.Yellow);
-             _spriteBatch.DrawString(font, "CurrentID: " + debugOuts[10], new Vector2(0, 500), Microsoft.Xna.Framework.Color.Yellow);*/
+            
             foreach (var button in _allComponents)
             {
                 button.Draw(gameTime, _spriteBatch);
