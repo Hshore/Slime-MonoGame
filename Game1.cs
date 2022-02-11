@@ -231,12 +231,9 @@ namespace monoSlime2
             };
             buttonOne.Click += ButtonOne_Click;
 
-            var Quitbutton = new Button(button_texture, font)
-            {
-                PositionScale = new Vector2(0f,0.97f),
-                // Position = new Vector2(0, Window.ClientBounds.Height -50),
-                Text = "Quit",
-            };
+            var Quitbutton = new Button(button_texture, font);
+            Quitbutton.PositionScale = new Vector2(0f, 0.97f);
+            Quitbutton.Text = "Quit";
             Quitbutton.Click += Quitbutton_Click;
 
             var singlebutton = new Button(singleButton_texture, font)
