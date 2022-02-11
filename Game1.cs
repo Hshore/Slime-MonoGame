@@ -232,7 +232,9 @@ namespace monoSlime2
             buttonOne.Click += ButtonOne_Click;
 
             var Quitbutton = new Button(button_texture, font);
-            Quitbutton.PositionScale = new Vector2(0f, 0.97f);
+            // Quitbutton.PositionScale = new Vector2(0f, 0.97f);
+            Quitbutton.Scale = 0.5f;
+            Quitbutton.location = Button.Location.BottomLeft;
             Quitbutton.Text = "Quit";
             Quitbutton.Click += Quitbutton_Click;
 

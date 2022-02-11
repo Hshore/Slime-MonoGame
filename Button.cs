@@ -19,7 +19,29 @@ namespace monoSlime2
         }
 
         public Location location { get; set; }
-        
+
+        public int w_offset { get; set; }
+        public int h_offset { get; set; }
+
+        public int CurrentWindowWidth { get; set; }
+        public int CurrentWindowHeight { get; set; }
+
+        public float Scale = 1f;
+        public float ScaledTextureWidth
+        {
+            get
+            {
+                return _texture.Width * Scale;
+            }
+        }
+        public float ScaledTextureHeight
+        {
+            get
+            {
+                return _texture.Height * Scale;
+            }
+        }
+
         public Component_Type type = Component_Type.Button;
         #region Fields
         private MouseState _currentmouse;
@@ -38,9 +60,40 @@ namespace monoSlime2
         public Vector2 PositionScale { get; set; }
         public Rectangle Rectangle
         {
+
+
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+
+                switch (location)
+                {
+                    case Location.TopLeft:
+                        return new Rectangle(0 + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.TopRight:
+                        return new Rectangle(CurrentWindowWidth - (int)ScaledTextureWidth + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.TopMiddle:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.BottomLeft:
+
+                        return new Rectangle(0 + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+
+                        break;
+                    case Location.BottomRight:
+                        return new Rectangle(CurrentWindowWidth - (int)ScaledTextureWidth + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.BottomMiddle:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                   
+                    default:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                }
+
+
             }
         }
         public string Text { get; set; }
@@ -81,7 +134,9 @@ namespace monoSlime2
 
             _previousMouse = _currentmouse;
             _currentmouse = Mouse.GetState();
-            Position = new Vector2(window.ClientBounds.Width * PositionScale.X, window.ClientBounds.Height * PositionScale.Y);
+            CurrentWindowWidth = window.ClientBounds.Width;
+            CurrentWindowHeight = window.ClientBounds.Height;
+            //Position = new Vector2(window.ClientBounds.Width * PositionScale.X, window.ClientBounds.Height * PositionScale.Y);
             var mouseRect = new Rectangle(_currentmouse.X, _currentmouse.Y, 1, 1);
 
             _isHovering = false;
