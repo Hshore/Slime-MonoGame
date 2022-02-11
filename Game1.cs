@@ -279,7 +279,7 @@ namespace monoSlime2
 
             _allComponents = new List<Component>
             {
-                buttonOne,
+              //  buttonOne,
                 Quitbutton,
                // singlebutton,
                 textbox,
@@ -289,7 +289,7 @@ namespace monoSlime2
             };
             _buttonComponents = new List<Button>
             {
-                buttonOne,
+                //buttonOne,
                 Quitbutton,
                // singlebutton,              
             };
@@ -391,24 +391,13 @@ namespace monoSlime2
             if (IsKeyPressed(Keys.LeftAlt, false) && IsKeyPressed(Keys.Enter, true))
             {
                 _graphics.ToggleFullScreen();
-               /* if (_graphics.IsFullScreen)
-                {
-                    
-                    _graphics.ToggleFullScreen();
-
-                }
-                else
-                {
-                 
-                    _graphics.ToggleFullScreen();
-                }*/
-
+             
                
             }
             foreach (var button in _allComponents)
             {
                 button.Update(gameTime, Window);
-              //  button.posUpdate();
+              
             }
             
             // TODO: Add your update logic here
