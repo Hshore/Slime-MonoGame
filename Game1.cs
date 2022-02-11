@@ -16,8 +16,8 @@ namespace monoSlime2
 
         public static int window_w = 1377;
         public static int window_h = 786;
-        public static int img_w = 3840 /4;
-        public static int img_h = 2160 /4;
+        public static int img_w = 1366;
+        public static int img_h = 768;
         public DirectBitmap Dbmp;
         public long framecounter = 0;
 
