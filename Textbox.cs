@@ -20,6 +20,38 @@ namespace monoSlime2
         private double _currentGametime;
 
         #endregion
+        public enum Location
+        {
+            TopLeft,
+            TopRight,
+            TopMiddle,
+            BottomMiddle,
+            BottomLeft,
+            BottomRight,
+        }
+
+        public Location location { get; set; }
+
+        public int w_offset { get; set; }
+        public int h_offset { get; set; }
+
+        public int CurrentWindowWidth { get; set; }
+        public int CurrentWindowHeight { get; set; }
+        public float Scale = 1f;
+        public float ScaledTextureWidth
+        {
+            get
+            {
+                return _texture.Width * Scale;
+            }
+        }
+        public float ScaledTextureHeight
+        {
+            get
+            {
+                return _texture.Height * Scale;
+            }
+        }
 
         #region Properties
         public string _name;
@@ -32,7 +64,34 @@ namespace monoSlime2
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+
+                switch (location)
+                {
+                    case Location.TopLeft:
+                        return new Rectangle(0 + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.TopRight:
+                        return new Rectangle(CurrentWindowWidth - (int)ScaledTextureWidth + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.TopMiddle:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, 0 + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.BottomLeft:
+
+                        return new Rectangle(0 + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+
+                        break;
+                    case Location.BottomRight:
+                        return new Rectangle(CurrentWindowWidth - (int)ScaledTextureWidth + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                    case Location.BottomMiddle:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+
+                    default:
+                        return new Rectangle((CurrentWindowWidth / 2) - ((int)ScaledTextureWidth / 2) + w_offset, CurrentWindowHeight - (int)ScaledTextureHeight + h_offset, (int)ScaledTextureWidth, (int)ScaledTextureHeight);
+                        break;
+                }
             }
         }
         public string Text { get; set; }
@@ -62,9 +121,10 @@ namespace monoSlime2
 
         public override void Update(GameTime gameTime, GameWindow window)
         {
-           
 
 
+            CurrentWindowWidth = window.ClientBounds.Width;
+            CurrentWindowHeight = window.ClientBounds.Height;
             UpdateText?.Invoke(this, this);
 
 
